@@ -1,16 +1,4 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// No Node.js APIs are available in this process because
-// `nodeIntegration` is turned off. Use `preload.js` to
-// selectively enable features needed in the rendering
-// process.
 
-// A little helper tool to wrap your functions if you want to build same app on web and electron.
-// Use this function to use electron apis only when running inside electron.
-// const isRunningInElectron = () => {
-//   const userAgent = navigator.userAgent.toLowerCase();
-//   return userAgent.indexOf(" electron/") > -1;
-// };
 
 window.addEventListener("DOMContentLoaded", () => {
   const menuButton = document.getElementById("menu-btn");
@@ -38,7 +26,7 @@ window.addEventListener("DOMContentLoaded", () => {
       icon.classList.remove("fa-clone");
     }
   });
-  closeButton.addEventListener("click", e => {
-    window.closeWindow();
-  });
+  // closeButton.addEventListener("click", e => {
+  //   window.closeWindow();
+  // });
 });

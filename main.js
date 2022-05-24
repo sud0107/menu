@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, Tray, Menu } = require("electron");
 const path = require("path");
 const { menu } = require("./menu");
 
@@ -20,9 +20,37 @@ function createWindow() {
     },
     frame: isWindows ? false : true //Remove frame to hide default menu
   });
+  const tray = new Tray('image.ico');
+  tray.setToolTip("Tray to electron app");
+  tray.on('click', () => {
+    mainWindow.isVisible()?mainWindow.hide():mainWindow.show();
+  });
+  tray.setContextMenu(Menu.buildFromTemplate([
+    {
+      label: 'Show App', click: function () {
+        mainWindow.show();
+      }
+    },
+    {
+      label: 'Quit', click: function () {
+        isQuiting = true;
+        // BrowserWindow.closable = true;
+        app.quit();
+        // e.preventDefault();
+        
+
+      }
+    }
+  ]));
+
+  // app.on('window-all-closed', (e) => {
+  //     e.preventDefault();
+  //     // window.restore();
+  // })
 
   mainWindow.loadFile("index.html");
-
+  // mainWindow.loadURL("http://www.holmiumtechnologies.com/");
+  
   mainWindow.on("closed", function() {
     mainWindow = null;
   });
@@ -30,8 +58,9 @@ function createWindow() {
 
 app.on("ready", createWindow);
 
-app.on("window-all-closed", function() {
-  if (process.platform !== "darwin") app.quit();
+app.on("window-all-closed", function(e) {
+  e.preventDefault();
+  // if (process.platform !== "darwin") app.quit();
 });
 
 app.on("activate", function() {
